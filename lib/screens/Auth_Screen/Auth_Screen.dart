@@ -6,6 +6,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../../components/Theme_button.dart';
+
 class AuthScreen extends StatelessWidget {
   const AuthScreen({super.key});
 
@@ -100,20 +102,11 @@ class AuthScreen extends StatelessWidget {
                       height: 30.h,
                     ),
 
-                    Container(
-                      alignment: Alignment.center,
-                      width: double.infinity,
-                      height: 62.h,
-                      decoration: BoxDecoration(
-                          color: mytheme.blue,
-                          borderRadius: BorderRadius.circular(12.r)),
-                      child: Text(
-                        'LOGIN',
-                        style: MyTextStyles.BtnTextStyle(Colors.white),
-                      ),
+                    ThemeButton(
+                      text: 'LOGIN',
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 24.h,
                     ),
 
                     Row(
@@ -134,8 +127,33 @@ class AuthScreen extends StatelessWidget {
                       ],
                     ),
                     SizedBox(
-                      height: 20.h,
+                      height: 38.h,
                     ),
+                    Center(
+                      child: Container(
+                        // color: Colors.amberAccent,
+                        // height: 70.h,
+                        width: 172.w,
+                        child: Column(
+                          children: [
+                            Text('OR SIGN IN WITH',
+                                style: MyTextStyles.SecondaryTextStyle()
+                                    .copyWith(
+                                        letterSpacing: 1.75, fontSize: 12.sp)),
+                            SizedBox(
+                              height: 22.h,
+                            ),
+                            Row(
+                              children: [
+                                Image(image: AppImages.Google_logo),
+                                // Image(image: AppImages.fb_logo),
+                                // Image(image: AppImages.twitter_logo),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ))
