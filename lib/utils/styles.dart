@@ -19,4 +19,13 @@ class MyTextStyles {
       color: Color(0xff2D4379),
     );
   }
+
+  static TextStyle BtnTextStyle(Color color) {
+    return TextStyle(
+      fontFamily: 'Metropolis',
+      fontSize: 18.sp,
+      fontWeight: FontWeight.w600,
+      color: color,
+    );
+  }
 }
