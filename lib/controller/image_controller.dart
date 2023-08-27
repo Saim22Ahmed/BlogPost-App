@@ -12,6 +12,6 @@ class AppImages {
   static const Img_SplashScreen_bg =
       AssetImage('assets/images/Splashscreen_bg.png');
   static const Google_logo = AssetImage('assets/images/Google.png');
-  static const fb_logo = AssetImage('assets/images/facebook.png');
-  static const twitter_logo = AssetImage('assets/images/twitter.png');
+  static const fb_logo = AssetImage('assets/images/Facebook.png');
+  static const twitter_logo = AssetImage('assets/images/Twitter.png');
 }

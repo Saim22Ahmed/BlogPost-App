@@ -1,5 +1,5 @@
 import 'package:blog_post_app/utils/colors.dart';
-import 'package:flutter/cupertino.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +9,7 @@ class ThemeButton extends StatelessWidget {
   const ThemeButton({
     super.key,
     this.width = double.infinity,
-    this.height = 62,
+    this.height = 52,
     required this.text,
   });
 
