@@ -10,8 +10,8 @@ import '../Auth_Screen/Auth_Screen.dart';
 import 'ImageCard.dart';
 import 'button.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class LandingScreen extends StatelessWidget {
+  LandingScreen({super.key});
 
   final animation_controller = Get.put(IntroImagesAnimation());
   @override

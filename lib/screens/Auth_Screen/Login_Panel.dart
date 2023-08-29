@@ -1,4 +1,4 @@
-import 'package:blog_post_app/controller/auth_screen_controller.dart';
+import 'package:blog_post_app/controller/Auth_Screen_Controller/auth_screen_controller.dart';
 import 'package:blog_post_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -91,7 +91,7 @@ class LoginPanel extends StatelessWidget {
                       style: MyTextStyles.SecondaryTextStyle()
                           .copyWith(letterSpacing: 1.75, fontSize: 14.sp)),
                   SizedBox(
-                    height: 22.h,
+                    height: 26.h,
                   ),
                   SignInWith()
                 ],
@@ -133,7 +133,7 @@ class LoginPanel extends StatelessWidget {
           onTap: () {},
           cursorColor: Colors.blue,
 
-          controller: fieldController.passController.value,
+          // controller: fieldController.passController.value,
           style: TextStyle(
             // color: Colors.blue,
             // height: 1.4,
@@ -196,7 +196,7 @@ class LoginPanel extends StatelessWidget {
           onTap: () {},
           onFieldSubmitted: (value) => FocusScope.of(context)
               .requestFocus(fieldController.passwordfocus.value),
-          controller: fieldController.emailController.value,
+          // controller: fieldController.emailController.value,
           focusNode: fieldController.emailfocus.value,
           textInputAction: TextInputAction.next,
           // autofocus: true,

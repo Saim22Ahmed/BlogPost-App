@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../controller/auth_screen_controller.dart';
+import '../controller/Auth_Screen_Controller/auth_screen_controller.dart';
 
 class TapColorChanger extends StatelessWidget {
   const TapColorChanger({
@@ -35,7 +35,7 @@ class TapColorChanger extends StatelessWidget {
         },
         child: Icon(
           icon,
-          size: 35.sp,
+          size: 32.sp,
           color: fieldController.istaplogo.value
               ? mytheme.HeadingColor
               : mytheme.blue,

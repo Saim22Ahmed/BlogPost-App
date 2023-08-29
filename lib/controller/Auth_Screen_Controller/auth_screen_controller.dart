@@ -11,9 +11,6 @@ class AuthScreenController extends GetxController {
 }
 
 class FieldController extends GetxController {
-  final emailController = TextEditingController().obs;
-  final passController = TextEditingController().obs;
-
   Rx<FocusNode> emailfocus = FocusNode().obs;
   Rx<FocusNode> passwordfocus = FocusNode().obs;
 
@@ -36,16 +33,3 @@ class FieldController extends GetxController {
     isHidden.value = !isHidden.value;
   }
 }
-
-
-// onTapDown: (details) {
-//             fieldController.istaplogo.value = false;
-//           },
-//           onTapUp: (details) {
-//             Timer(Duration(milliseconds: 200), () {
-//               fieldController.istaplogo.value = true;
-//             });
-//           },
-//           onTapCancel: () {
-//             fieldController.istaplogo.value = true;
-//           },

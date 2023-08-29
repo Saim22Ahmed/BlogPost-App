@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-import '../../controller/auth_screen_controller.dart';
+import '../../controller/Auth_Screen_Controller/auth_screen_controller.dart';
 import 'Login_Panel.dart';
 import 'SignUp_Panel.dart';
 
@@ -48,47 +48,46 @@ class AuthScreen extends StatelessWidget {
                     borderRadius: BorderRadius.only(
                         topLeft: Radius.circular(40.r),
                         topRight: Radius.circular(40.r))),
-                child: Align(
-                  alignment: Alignment(0.w, -0.9.h),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      InkWell(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    InkWell(
+                      onTap: () {
+                        authScreenController.PanelValue.value = false;
+                      },
+                      child: Obx(
+                        () => Container(
+                          margin: EdgeInsets.only(bottom: 30.h),
+                          padding: EdgeInsets.symmetric(
+                              vertical: 16.h, horizontal: 20.w),
+                          child: Text('LOGIN',
+                              style: authScreenController.PanelValue.value
+                                  ? MyTextStyles.BtnTextStyle(
+                                      Colors.white.withOpacity(0.30))
+                                  : MyTextStyles.BtnTextStyle(Colors.white)),
+                        ),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 0,
+                    ),
+                    InkWell(
                         onTap: () {
-                          authScreenController.PanelValue.value = false;
+                          authScreenController.onTapPanel();
                         },
                         child: Obx(
                           () => Container(
+                            margin: EdgeInsets.only(bottom: 30.h),
                             padding: EdgeInsets.symmetric(
                                 vertical: 16.h, horizontal: 20.w),
-                            child: Text('LOGIN',
+                            child: Text('SIGN UP',
                                 style: authScreenController.PanelValue.value
-                                    ? MyTextStyles.BtnTextStyle(
-                                        Colors.white.withOpacity(0.30))
-                                    : MyTextStyles.BtnTextStyle(Colors.white)),
+                                    ? MyTextStyles.BtnTextStyle(Colors.white)
+                                    : MyTextStyles.BtnTextStyle(
+                                        Colors.white.withOpacity(0.30))),
                           ),
-                        ),
-                      ),
-                      SizedBox(
-                        width: 0,
-                      ),
-                      InkWell(
-                          onTap: () {
-                            authScreenController.onTapPanel();
-                          },
-                          child: Obx(
-                            () => Container(
-                              padding: EdgeInsets.symmetric(
-                                  vertical: 16.h, horizontal: 20.w),
-                              child: Text('SIGN UP',
-                                  style: authScreenController.PanelValue.value
-                                      ? MyTextStyles.BtnTextStyle(Colors.white)
-                                      : MyTextStyles.BtnTextStyle(
-                                          Colors.white.withOpacity(0.30))),
-                            ),
-                          )),
-                    ],
-                  ),
+                        )),
+                  ],
                 ),
               )),
           // Form
@@ -98,8 +97,8 @@ class AuthScreen extends StatelessWidget {
               right: 0.w,
               child: Obx(
                 () => Container(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 40.w, vertical: 40.h),
+                  padding: EdgeInsets.symmetric(horizontal: 40.w)
+                      .copyWith(top: 40.h),
                   height: 640.h,
                   decoration: BoxDecoration(
                       color: Colors.white,

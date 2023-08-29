@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:blog_post_app/controller/image_controller.dart';
-import 'package:blog_post_app/screens/Home_Screen/HomeScreen.dart';
+import 'package:blog_post_app/screens/Landing_Screen/LandingScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -22,7 +22,7 @@ class _SplashScreenState extends State<SplashScreen>
   @override
   void initState() {
     Timer(Duration(seconds: 4), () {
-      Get.to(HomeScreen());
+      Get.to(LandingScreen());
     });
     setState(() {});
     // Animation Controller
