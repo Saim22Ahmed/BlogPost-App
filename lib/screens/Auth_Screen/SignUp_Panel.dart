@@ -5,10 +5,13 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
+import '../../Firebase_services/Auth/Auth.dart';
 import '../../components/TapColorChanger.dart';
 import '../../components/Theme_button.dart';
+import '../../controller/Auth_Screen_Controller/Signup_Controller.dart';
 import '../../controller/Auth_Screen_Controller/auth_screen_controller.dart';
 import '../../utils/styles.dart';
+import '../HomeScreen/Home_Screen.dart';
 
 class SignUpPanel extends StatelessWidget {
   SignUpPanel({
@@ -16,6 +19,8 @@ class SignUpPanel extends StatelessWidget {
   });
 
   final FieldController fieldController = Get.put(FieldController());
+  final signup_controller = Get.put(SignUpController());
+  final authservices = Get.put(AuthServices());
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -54,9 +59,17 @@ class SignUpPanel extends StatelessWidget {
           SizedBox(
             height: 35.h,
           ),
-
-          ThemeButton(
-            text: 'SIGN UP',
+          // Submit Button
+          InkWell(
+            onTap: () {
+              authservices.SignUp(
+                  email: signup_controller.email.text,
+                  password: signup_controller.password.text,
+                  context: context);
+            },
+            child: ThemeButton(
+              text: 'SIGN UP',
+            ),
           ),
           SizedBox(
             height: 24.h,
@@ -118,7 +131,7 @@ class SignUpPanel extends StatelessWidget {
           onTap: () {},
           cursorColor: Colors.blue,
 
-          // controller: fieldController.passController.value,
+          controller: signup_controller.password,
           style: TextStyle(
             // color: Colors.blue,
             // height: 1.4,
@@ -180,12 +193,12 @@ class SignUpPanel extends StatelessWidget {
           textAlignVertical: TextAlignVertical.top,
           obscureText: fieldController.isHidden.value,
           textInputAction: TextInputAction.done,
-          focusNode: fieldController.passwordfocus.value,
+          // focusNode: fieldController.passwordfocus.value,
           // autofocus: true,
           onTap: () {},
           cursorColor: Colors.blue,
 
-          // controller: fieldController.passController.value,
+          controller: signup_controller.confirm_password,
           style: TextStyle(
             // color: Colors.blue,
             // height: 1.4,
@@ -248,7 +261,7 @@ class SignUpPanel extends StatelessWidget {
           onTap: () {},
           onFieldSubmitted: (value) => FocusScope.of(context)
               .requestFocus(fieldController.passwordfocus.value),
-          // controller: fieldController.emailController.value,
+          controller: signup_controller.email,
           focusNode: fieldController.emailfocus.value,
           textInputAction: TextInputAction.next,
           // autofocus: true,

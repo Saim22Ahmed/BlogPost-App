@@ -1,4 +1,6 @@
+import 'package:blog_post_app/Firebase_services/Auth/Auth.dart';
 import 'package:blog_post_app/controller/Auth_Screen_Controller/auth_screen_controller.dart';
+import 'package:blog_post_app/screens/HomeScreen/Home_Screen.dart';
 import 'package:blog_post_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +10,7 @@ import 'package:icons_plus/icons_plus.dart';
 
 import '../../components/TapColorChanger.dart';
 import '../../components/Theme_button.dart';
+import '../../controller/Auth_Screen_Controller/Login_Controller.dart';
 import '../../utils/styles.dart';
 
 class LoginPanel extends StatelessWidget {
@@ -16,6 +19,8 @@ class LoginPanel extends StatelessWidget {
   });
 
   final FieldController fieldController = Get.put(FieldController());
+  final loginController = Get.put(LoginController());
+  final authservices = Get.put(AuthServices());
 
   @override
   Widget build(BuildContext context) {
@@ -40,26 +45,39 @@ class LoginPanel extends StatelessWidget {
           SizedBox(
             height: 37.h,
           ),
-          // Email Field
-          EmailField(context),
-          SizedBox(
-            height: 15.h,
-          ),
+          Form(
+              key: loginController.formField.value,
+              child: Column(
+                children: [
+                  // Email Field
+                  EmailField(context),
+                  SizedBox(
+                    height: 15.h,
+                  ),
 
-          // Password Field
-          PasswordField(),
-
+                  // Password Field
+                  PasswordField(),
+                ],
+              )),
           SizedBox(
             height: 35.h,
           ),
 
-          ThemeButton(
-            text: 'LOGIN',
+          // Submit Button
+          InkWell(
+            onTap: () {
+              authservices.SignIn(
+                  email: loginController.email.text,
+                  password: loginController.password.text,
+                  context: context);
+            },
+            child: ThemeButton(
+              text: 'LOGIN',
+            ),
           ),
           SizedBox(
             height: 24.h,
           ),
-
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -133,10 +151,10 @@ class LoginPanel extends StatelessWidget {
           onTap: () {},
           cursorColor: Colors.blue,
 
-          // controller: fieldController.passController.value,
+          controller: loginController.password,
           style: TextStyle(
             // color: Colors.blue,
-            // height: 1.4,
+            // height: 1.2,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 20.sp,
           ),
@@ -196,14 +214,14 @@ class LoginPanel extends StatelessWidget {
           onTap: () {},
           onFieldSubmitted: (value) => FocusScope.of(context)
               .requestFocus(fieldController.passwordfocus.value),
-          // controller: fieldController.emailController.value,
+          controller: loginController.email,
           focusNode: fieldController.emailfocus.value,
           textInputAction: TextInputAction.next,
           // autofocus: true,
           maxLines: null,
           cursorColor: Colors.blue,
           style: TextStyle(
-            // height: 1.4,
+            height: 1.2,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 20.sp,
           ),
