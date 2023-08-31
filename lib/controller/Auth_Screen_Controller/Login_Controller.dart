@@ -6,4 +6,9 @@ class LoginController extends GetxController {
 
   final email = TextEditingController();
   final password = TextEditingController();
+
+  ClearControllers() {
+    email.clear();
+    password.clear();
+  }
 }

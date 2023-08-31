@@ -1,6 +1,7 @@
 import 'package:blog_post_app/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
@@ -63,8 +64,8 @@ class SignUpPanel extends StatelessWidget {
           InkWell(
             onTap: () {
               authservices.SignUp(
-                  email: signup_controller.email.text,
-                  password: signup_controller.password.text,
+                  email: signup_controller.email.text.trim(),
+                  password: signup_controller.password.text.trim(),
                   context: context);
             },
             child: ThemeButton(
@@ -72,7 +73,7 @@ class SignUpPanel extends StatelessWidget {
             ),
           ),
           SizedBox(
-            height: 24.h,
+            height: 16.h,
           ),
 
           SizedBox(
@@ -103,18 +104,9 @@ class SignUpPanel extends StatelessWidget {
 
   Row SignInWith() {
     return Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-      TapColorChanger(
-        fieldController: fieldController,
-        icon: FontAwesome.google,
-      ),
-      TapColorChanger(
-        fieldController: fieldController,
-        icon: FontAwesome.facebook,
-      ),
-      TapColorChanger(
-        fieldController: fieldController,
-        icon: FontAwesome.twitter,
-      ),
+      Icon(FontAwesome.google, size: 32.sp, color: mytheme.HeadingColor),
+      Icon(FontAwesome.facebook, size: 32.sp, color: mytheme.HeadingColor),
+      Icon(FontAwesome.twitter, size: 32.sp, color: mytheme.HeadingColor),
     ]);
   }
 
@@ -268,7 +260,7 @@ class SignUpPanel extends StatelessWidget {
           maxLines: null,
           cursorColor: Colors.blue,
           style: TextStyle(
-            // height: 1.4,
+            height: 1.2,
             fontFamily: GoogleFonts.roboto().fontFamily,
             fontSize: 20.sp,
           ),

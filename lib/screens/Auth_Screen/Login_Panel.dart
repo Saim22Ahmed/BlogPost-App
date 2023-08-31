@@ -2,6 +2,8 @@ import 'package:blog_post_app/Firebase_services/Auth/Auth.dart';
 import 'package:blog_post_app/controller/Auth_Screen_Controller/auth_screen_controller.dart';
 import 'package:blog_post_app/screens/HomeScreen/Home_Screen.dart';
 import 'package:blog_post_app/utils/colors.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -45,20 +47,13 @@ class LoginPanel extends StatelessWidget {
           SizedBox(
             height: 37.h,
           ),
-          Form(
-              key: loginController.formField.value,
-              child: Column(
-                children: [
-                  // Email Field
-                  EmailField(context),
-                  SizedBox(
-                    height: 15.h,
-                  ),
+          EmailField(context),
+          SizedBox(
+            height: 15.h,
+          ),
 
-                  // Password Field
-                  PasswordField(),
-                ],
-              )),
+          // Password Field
+          PasswordField(),
           SizedBox(
             height: 35.h,
           ),
@@ -67,9 +62,12 @@ class LoginPanel extends StatelessWidget {
           InkWell(
             onTap: () {
               authservices.SignIn(
-                  email: loginController.email.text,
-                  password: loginController.password.text,
+                  email: loginController.email.value.text.trim(),
+                  password: loginController.password.value.text.trim(),
                   context: context);
+              // FirebaseAuth.instance.signInWithEmailAndPassword(
+              //     email: loginController.email.text,
+              //     password: loginController.password.text);
             },
             child: ThemeButton(
               text: 'LOGIN',
