@@ -14,6 +14,7 @@ import '../../components/TapColorChanger.dart';
 import '../../components/Theme_button.dart';
 import '../../controller/Auth_Screen_Controller/Login_Controller.dart';
 import '../../utils/styles.dart';
+import 'ForgotPassScreen.dart';
 
 class LoginPanel extends StatelessWidget {
   LoginPanel({
@@ -59,19 +60,29 @@ class LoginPanel extends StatelessWidget {
           ),
 
           // Submit Button
-          InkWell(
-            onTap: () {
-              authservices.SignIn(
-                  email: loginController.email.value.text.trim(),
-                  password: loginController.password.value.text.trim(),
-                  context: context);
-              // FirebaseAuth.instance.signInWithEmailAndPassword(
-              //     email: loginController.email.text,
-              //     password: loginController.password.text);
-            },
-            child: ThemeButton(
-              text: 'LOGIN',
-            ),
+          Obx(
+            () => InkWell(
+                onTap: () {
+                  authservices.isloading.value = true;
+                  authservices.SignIn(
+                      email: loginController.email.value.text.trim(),
+                      password: loginController.password.value.text.trim(),
+                      context: context);
+                },
+                child: ThemeButton(
+                  child: authservices.isloading.value
+                      ? Transform.scale(
+                          scale: 0.7,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          'LOGIN',
+                          style: MyTextStyles.BtnTextStyle(Colors.white),
+                        ),
+                )),
           ),
           SizedBox(
             height: 24.h,
@@ -86,11 +97,18 @@ class LoginPanel extends StatelessWidget {
               SizedBox(
                 width: 8.w,
               ),
-              Text('Reset here',
-                  style: TextStyle(
-                      color: mytheme.blue,
-                      fontSize: 14.sp,
-                      fontWeight: FontWeight.w500)),
+
+              // Reset Password
+              InkWell(
+                onTap: () {
+                  Get.to(() => ForgotPassScreen());
+                },
+                child: Text('Reset here',
+                    style: TextStyle(
+                        color: mytheme.blue,
+                        fontSize: 14.sp,
+                        fontWeight: FontWeight.w500)),
+              ),
             ],
           ),
           SizedBox(

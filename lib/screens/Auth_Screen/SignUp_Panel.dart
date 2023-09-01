@@ -49,7 +49,7 @@ class SignUpPanel extends StatelessWidget {
           ),
 
           // Password Field
-          PasswordField(),
+          PasswordField(context),
 
           SizedBox(
             height: 15.h,
@@ -61,16 +61,29 @@ class SignUpPanel extends StatelessWidget {
             height: 35.h,
           ),
           // Submit Button
-          InkWell(
-            onTap: () {
-              authservices.SignUp(
-                  email: signup_controller.email.text.trim(),
-                  password: signup_controller.password.text.trim(),
-                  context: context);
-            },
-            child: ThemeButton(
-              text: 'SIGN UP',
-            ),
+          Obx(
+            () => InkWell(
+                onTap: () {
+                  authservices.isloading.value = true;
+                  authservices.SignUp(
+                      email: signup_controller.email.text.trim(),
+                      password: signup_controller.password.text.trim(),
+                      context: context);
+                },
+                child: ThemeButton(
+                  child: authservices.isloading.value
+                      ? Transform.scale(
+                          scale: 0.7,
+                          child: CircularProgressIndicator(
+                            strokeWidth: 3,
+                            color: Colors.white,
+                          ),
+                        )
+                      : Text(
+                          'SIGN UP',
+                          style: MyTextStyles.BtnTextStyle(Colors.white),
+                        ),
+                )),
           ),
           SizedBox(
             height: 16.h,
@@ -110,15 +123,17 @@ class SignUpPanel extends StatelessWidget {
     ]);
   }
 
-  PasswordField() {
+  PasswordField(context) {
     return Obx(
       () => Container(
         height: 65.h,
         child: TextFormField(
           textAlignVertical: TextAlignVertical.top,
           obscureText: fieldController.isHidden.value,
-          textInputAction: TextInputAction.done,
+          textInputAction: TextInputAction.next,
           focusNode: fieldController.passwordfocus.value,
+          onFieldSubmitted: (value) => FocusScope.of(context)
+              .requestFocus(fieldController.confirm_passwordfocus.value),
           // autofocus: true,
           onTap: () {},
           cursorColor: Colors.blue,
@@ -185,8 +200,9 @@ class SignUpPanel extends StatelessWidget {
           textAlignVertical: TextAlignVertical.top,
           obscureText: fieldController.isHidden.value,
           textInputAction: TextInputAction.done,
-          // focusNode: fieldController.passwordfocus.value,
+          focusNode: fieldController.confirm_passwordfocus.value,
           // autofocus: true,
+
           onTap: () {},
           cursorColor: Colors.blue,
 

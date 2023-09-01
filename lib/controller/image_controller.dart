@@ -14,4 +14,6 @@ class AppImages {
   static const Google_logo = AssetImage('assets/images/Google.png');
   static const fb_logo = AssetImage('assets/images/Facebook.png');
   static const twitter_logo = AssetImage('assets/images/Twitter.png');
+  static const forgot_pass = AssetImage('assets/images/forgot_pass.svg');
+  static const forgot_pass1 = AssetImage('assets/images/forgot_pass1.png');
 }

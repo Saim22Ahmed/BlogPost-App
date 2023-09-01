@@ -13,6 +13,7 @@ class AuthScreenController extends GetxController {
 class FieldController extends GetxController {
   Rx<FocusNode> emailfocus = FocusNode().obs;
   Rx<FocusNode> passwordfocus = FocusNode().obs;
+  Rx<FocusNode> confirm_passwordfocus = FocusNode().obs;
 
   // ObscureText
   RxBool isHidden = true.obs;

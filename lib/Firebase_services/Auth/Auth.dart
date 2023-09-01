@@ -11,8 +11,6 @@ import 'package:get/get.dart';
 import '../../utils/myutils.dart';
 
 class AuthServices extends GetxController {
-  String? error_msg = '';
-
   FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
   User? get currentUser => _firebaseAuth.currentUser;
@@ -21,6 +19,10 @@ class AuthServices extends GetxController {
 
   final signup_controller = Get.put(SignUpController());
   final login_controller = Get.put(LoginController());
+
+  String? error_msg = '';
+
+  RxBool isloading = false.obs;
 
   Future<void> SignIn(
       {required String email,
@@ -31,9 +33,14 @@ class AuthServices extends GetxController {
           email: email, password: password);
     } on FirebaseAuthException catch (e) {
       error_msg = e.message;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('$error_msg')));
+      if (e.code == 'user-not-found') {
+        Utils.CustomSnackBar(context, 'User Not Found', 'Please sign up.');
+      } else if (e.code == 'wrong-password') {
+        Utils.CustomSnackBar(
+            context, 'Incorrect Password', 'Please try again.');
+      }
     }
+    isloading.value = false;
   }
 
   Future<void> SignUp(
@@ -45,15 +52,20 @@ class AuthServices extends GetxController {
         await _firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
       } else {
-        Utils.CustomSnackBar(context, '$error_msg');
-        // ScaffoldMessenger.of(context)
-        //     .showSnackBar(SnackBar(content: Text('Password do not Match')));
+        Utils.CustomSnackBar(context, 'Password Do Not Match',
+            'Ensure that both the passwords are same');
       }
     } on FirebaseAuthException catch (e) {
       error_msg = e.message;
-      ScaffoldMessenger.of(context)
-          .showSnackBar(SnackBar(content: Text('$error_msg')));
+      if (e.code == 'email-already-in-use') {
+        Utils.CustomSnackBar(context, 'Email Already in Use',
+            'This email is already registered. Please log in or reset your password.');
+      } else if (e.code == 'invalid-email') {
+        Utils.CustomSnackBar(
+            context, 'Invalid Email', 'Please enter a valid email address.');
+      }
     }
+    isloading.value = false;
   }
 
   Future SignOut() async {

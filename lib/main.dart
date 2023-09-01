@@ -1,5 +1,6 @@
 import 'package:blog_post_app/Firebase_services/Auth/main_auth_page.dart';
 import 'package:blog_post_app/screens/Auth_Screen/Auth_Screen.dart';
+import 'package:blog_post_app/screens/Auth_Screen/ForgotPassScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -30,7 +31,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Metropolis',
             useMaterial3: true,
           ),
-          home: MainAuthPage(),
+          home: ForgotPassScreen(),
         );
       },
     );

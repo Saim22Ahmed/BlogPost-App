@@ -10,12 +10,12 @@ class ThemeButton extends StatelessWidget {
     super.key,
     this.width = double.infinity,
     this.height = 52,
-    required this.text,
+    required this.child,
   });
 
   final double width;
   final double height;
-  final String text;
+  final dynamic child;
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,7 @@ class ThemeButton extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
           color: mytheme.blue, borderRadius: BorderRadius.circular(12.r)),
-      child: Text(
-        text,
-        style: MyTextStyles.BtnTextStyle(Colors.white),
-      ),
+      child: child,
     );
   }
 }
