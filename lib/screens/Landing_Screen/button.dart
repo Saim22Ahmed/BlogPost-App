@@ -7,10 +7,13 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:icons_plus/icons_plus.dart';
 
-class Button extends StatelessWidget {
-  Button({
+class ThemeIconButton extends StatelessWidget {
+  ThemeIconButton({
     super.key,
+    required this.icon,
   });
+
+  final IconData icon;
 
   final IntroImagesAnimation animation_controller =
       Get.put(IntroImagesAnimation());
@@ -24,7 +27,7 @@ class Button extends StatelessWidget {
         height: 66.h,
         width: 80.w,
         child: Icon(
-          OctIcons.arrow_right_24,
+          icon,
           color: Colors.white,
         ),
         decoration: BoxDecoration(boxShadow: [

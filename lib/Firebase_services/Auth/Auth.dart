@@ -1,4 +1,5 @@
 import 'package:blog_post_app/controller/Auth_Screen_Controller/Login_Controller.dart';
+import 'package:blog_post_app/controller/Auth_Screen_Controller/Rese&ForgotPass_Controller.dart';
 import 'package:blog_post_app/controller/Auth_Screen_Controller/Signup_Controller.dart';
 import 'package:blog_post_app/screens/Auth_Screen/Auth_Screen.dart';
 import 'package:blog_post_app/screens/HomeScreen/Home_Screen.dart';
@@ -19,6 +20,7 @@ class AuthServices extends GetxController {
 
   final signup_controller = Get.put(SignUpController());
   final login_controller = Get.put(LoginController());
+  final forgot_pass_controller = Get.put(Forgot_Pass_Controller());
 
   String? error_msg = '';
 
@@ -34,9 +36,10 @@ class AuthServices extends GetxController {
     } on FirebaseAuthException catch (e) {
       error_msg = e.message;
       if (e.code == 'user-not-found') {
-        Utils.CustomSnackBar(context, 'User Not Found', 'Please sign up.');
+        Utils.CustomSuccessSnackBar(
+            context, 'User Not Found', 'Please sign up.');
       } else if (e.code == 'wrong-password') {
-        Utils.CustomSnackBar(
+        Utils.CustomSuccessSnackBar(
             context, 'Incorrect Password', 'Please try again.');
       }
     }
@@ -52,16 +55,16 @@ class AuthServices extends GetxController {
         await _firebaseAuth.createUserWithEmailAndPassword(
             email: email, password: password);
       } else {
-        Utils.CustomSnackBar(context, 'Password Do Not Match',
+        Utils.CustomErrorSnackBar(context, 'Password Do Not Match',
             'Ensure that both the passwords are same');
       }
     } on FirebaseAuthException catch (e) {
       error_msg = e.message;
       if (e.code == 'email-already-in-use') {
-        Utils.CustomSnackBar(context, 'Email Already in Use',
+        Utils.CustomErrorSnackBar(context, 'Email Already in Use',
             'This email is already registered. Please log in or reset your password.');
       } else if (e.code == 'invalid-email') {
-        Utils.CustomSnackBar(
+        Utils.CustomErrorSnackBar(
             context, 'Invalid Email', 'Please enter a valid email address.');
       }
     }
@@ -81,6 +84,26 @@ class AuthServices extends GetxController {
       return true;
     } else {
       return false;
+    }
+  }
+
+  Future<void> ResetPassword(String email, context) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email).then((value) =>
+          Utils.CustomSuccessSnackBar(context, 'Email has been Sent ! ',
+              'Please check your inbox or spam folder after few seconds.'));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        Utils.CustomErrorSnackBar(context, 'Email has been Sent ',
+            'Check your inbox or spam folder after few seconds');
+      } else if (e.code == 'wrong-password') {
+        Utils.CustomErrorSnackBar(
+            context, 'Incorrect Password', 'Please try again.');
+      }
+    }
+    forgot_pass_controller.isLoading.value = false;
+    if (forgot_pass_controller.isLoading.value == false) {
+      forgot_pass_controller.isLinkSent.value = true;
     }
   }
 }

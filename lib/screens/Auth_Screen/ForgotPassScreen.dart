@@ -1,5 +1,7 @@
+import 'package:blog_post_app/Firebase_services/Auth/Auth.dart';
 import 'package:blog_post_app/components/Theme_button.dart';
 import 'package:blog_post_app/controller/image_controller.dart';
+import 'package:blog_post_app/screens/Landing_Screen/button.dart';
 import 'package:blog_post_app/utils/colors.dart';
 import 'package:blog_post_app/utils/styles.dart';
 import 'package:flutter/material.dart';
@@ -12,15 +14,18 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:icons_plus/icons_plus.dart';
 
 import '../../controller/Auth_Screen_Controller/Rese&ForgotPass_Controller.dart';
+import '../../utils/myutils.dart';
 
 class ForgotPassScreen extends StatelessWidget {
   ForgotPassScreen({super.key});
-
-  final forgotpass_controller = Get.put(Reset_Forgot_Pass_Controller());
+  final _formkey = GlobalKey<FormState>();
+  final auth_services = Get.put(AuthServices());
+  final forgotpass_controller = Get.put(Forgot_Pass_Controller());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
+      resizeToAvoidBottomInset: false,
       body: InkWell(
         onTap: () {
           forgotpass_controller.UnFocusFields();
@@ -28,21 +33,43 @@ class ForgotPassScreen extends StatelessWidget {
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 19.0.w, vertical: 10.0.h),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  InkWell(
+                      onTap: () {
+                        Get.back();
+                        Future.delayed(Duration(milliseconds: 200), () {
+                          forgotpass_controller.email.clear();
+                        });
+                      },
+                      child: Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        // color: Colors.grey,
+                        child: Icon(
+                          HeroIcons.arrow_long_left,
+                          size: 32..sp,
+                          color: mytheme.blue,
+                        ),
+                      )),
+                ],
+              ),
+
               Container(
                 // color: Colors.grey,
-                // height: 200.h,
-                // width: 200.w,
+
                 child: SvgPicture.asset(
                   'assets/images/forgot_pass.svg',
                   fit: BoxFit.cover,
-                  height: 380.h,
-                  width: 380.w,
+                  height: 350.h,
                 ),
               ),
               SizedBox(
-                height: 14.h,
+                height: 5.h,
               ),
               // Forgor Password Heading
               ForgetPasswordHeading(),
@@ -60,22 +87,112 @@ class ForgotPassScreen extends StatelessWidget {
                 ),
               ),
               SizedBox(
-                height: 38.h,
+                height: 42.h,
               ),
               EmailField(),
               SizedBox(
-                height: 30.h,
+                height: 16.h,
               ),
-              ThemeButton(
-                  child: Text(
-                'Send',
-                style: MyTextStyles.BtnTextStyle(Colors.white),
-              ))
+              ResetButton(context),
+              SizedBox(
+                height: 20.h,
+              ),
+              InkWell(
+                onTap: () {
+                  Get.back();
+                },
+                child: ThemeButton(
+                    child: Text(
+                  'Login',
+                  style: MyTextStyles.BtnTextStyle(Colors.white),
+                )),
+              ),
             ],
           ),
         ),
       ),
     ));
+  }
+
+  Obx ResetButton(BuildContext context) {
+    return Obx(
+      () => InkWell(
+        onTap: () {
+          if (_formkey.currentState!.validate()) {
+            forgotpass_controller.isLoading.value = true;
+            auth_services.ResetPassword(
+                forgotpass_controller.email.text.trim(), context);
+          }
+        },
+        child: ThemeButton(
+            child: auth_services.isloading.value
+                ? CircularProgressIndicator()
+                : Text(
+                    forgotpass_controller.isLinkSent.value
+                        ? 'Link Sent'
+                        : 'Send Reset Link',
+                    style: MyTextStyles.BtnTextStyle(Colors.white),
+                  )),
+      ),
+    );
+  }
+
+  Obx EmailField() {
+    return Obx(
+      () => Form(
+        key: _formkey,
+        child: Container(
+          // color: Colors.grey,
+          height: 88.h,
+          child: TextFormField(
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Email Field cant be empty';
+              }
+            },
+            onTap: () {
+              forgotpass_controller.ontap.value = true;
+            },
+            focusNode: forgotpass_controller.emailfocus.value,
+            controller: forgotpass_controller.email,
+            cursorColor: mytheme.blue,
+            style: TextStyle(
+              height: 1.2.h,
+              fontFamily: GoogleFonts.roboto().fontFamily,
+              fontSize: 18.sp,
+            ),
+            keyboardType: TextInputType.emailAddress,
+            onFieldSubmitted: (value) {
+              forgotpass_controller.ontap.value = false;
+            },
+            decoration: InputDecoration(
+                filled: true,
+                fillColor: Color.fromARGB(55, 158, 158, 158),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide.none,
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(
+                    color: mytheme.blue,
+                    width: 1.w,
+                  ),
+                  borderRadius: BorderRadius.circular(15.r),
+                ),
+                hintText: 'Email',
+                hintStyle: TextStyle(
+                  fontSize: 18.sp,
+                ),
+                prefixIcon: forgotpass_controller.ontap.value
+                    ? Icon(
+                        EvaIcons.email,
+                        color: mytheme.blue,
+                      )
+                    : Icon(EvaIcons.email, color: Colors.grey)),
+          ),
+        ),
+      ),
+    );
   }
 
   Container ForgetPasswordHeading() {
@@ -98,54 +215,5 @@ class ForgotPassScreen extends StatelessWidget {
             ],
           ),
         ));
-  }
-
-  EmailField() {
-    return Obx(
-      () => Container(
-        height: 63.h,
-        child: TextFormField(
-          onTap: () {
-            forgotpass_controller.ontap.value = true;
-          },
-          focusNode: forgotpass_controller.emailfocus.value,
-          controller: forgotpass_controller.email,
-          cursorColor: mytheme.blue,
-          style: TextStyle(
-            height: 1.0.h,
-            fontFamily: GoogleFonts.roboto().fontFamily,
-            fontSize: 18.sp,
-          ),
-          keyboardType: TextInputType.emailAddress,
-          onFieldSubmitted: (value) {
-            forgotpass_controller.ontap.value = false;
-          },
-          decoration: InputDecoration(
-              filled: true,
-              fillColor: Color.fromARGB(55, 158, 158, 158),
-              border: OutlineInputBorder(
-                borderSide: BorderSide.none,
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  color: mytheme.blue,
-                  width: 1.w,
-                ),
-                borderRadius: BorderRadius.circular(15.r),
-              ),
-              hintText: 'Email',
-              hintStyle: TextStyle(
-                fontSize: 18.sp,
-              ),
-              prefixIcon: forgotpass_controller.ontap.value
-                  ? Icon(
-                      EvaIcons.email,
-                      color: mytheme.blue,
-                    )
-                  : Icon(EvaIcons.email, color: Colors.grey)),
-        ),
-      ),
-    );
   }
 }

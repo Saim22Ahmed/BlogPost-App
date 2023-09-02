@@ -101,7 +101,8 @@ class LoginPanel extends StatelessWidget {
               // Reset Password
               InkWell(
                 onTap: () {
-                  Get.to(() => ForgotPassScreen());
+                  Get.to(() => ForgotPassScreen())
+                    ?..whenComplete(() => loginController.ClearControllers());
                 },
                 child: Text('Reset here',
                     style: TextStyle(

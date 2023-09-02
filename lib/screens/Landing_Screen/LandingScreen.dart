@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:icons_plus/icons_plus.dart';
 
 import '../Auth_Screen/Auth_Screen.dart';
 import 'ImageCard.dart';
@@ -35,7 +36,11 @@ class LandingScreen extends StatelessWidget {
                 ),
               ),
               SlideView(),
-              InkWell(onTap: () => Get.to(() => AuthScreen()), child: Button()),
+              InkWell(
+                  onTap: () => Get.to(() => AuthScreen()),
+                  child: ThemeIconButton(
+                    icon: OctIcons.arrow_right_24,
+                  )),
             ],
           )),
     );

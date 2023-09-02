@@ -31,7 +31,7 @@ class MyApp extends StatelessWidget {
             fontFamily: 'Metropolis',
             useMaterial3: true,
           ),
-          home: ForgotPassScreen(),
+          home: MainAuthPage(),
         );
       },
     );
