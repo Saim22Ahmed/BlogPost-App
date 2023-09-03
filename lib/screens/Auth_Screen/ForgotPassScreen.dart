@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blog_post_app/Firebase_services/Auth/Auth.dart';
 import 'package:blog_post_app/components/Theme_button.dart';
 import 'package:blog_post_app/controller/image_controller.dart';
@@ -61,11 +63,11 @@ class ForgotPassScreen extends StatelessWidget {
 
               Container(
                 // color: Colors.grey,
-
+                margin: EdgeInsets.only(left: 16.w),
                 child: SvgPicture.asset(
                   'assets/images/forgot_pass.svg',
                   fit: BoxFit.cover,
-                  height: 350.h,
+                  height: 310.h,
                 ),
               ),
               SizedBox(
@@ -101,11 +103,24 @@ class ForgotPassScreen extends StatelessWidget {
                 onTap: () {
                   Get.back();
                 },
-                child: ThemeButton(
-                    child: Text(
-                  'Login',
-                  style: MyTextStyles.BtnTextStyle(Colors.white),
-                )),
+                child: Obx(
+                  () => AnimatedScale(
+                    onEnd: () {
+                      forgotpass_controller.isAnimate.value = false;
+                      Timer(Duration(milliseconds: 200), () {
+                        forgotpass_controller.ShowCustomSnackBar(context);
+                      });
+                    },
+                    curve: Curves.easeInOut,
+                    scale: forgotpass_controller.isLinkSent.value ? 1 : 0,
+                    duration: Duration(milliseconds: 600),
+                    child: ThemeButton(
+                        child: Text(
+                      'Login',
+                      style: MyTextStyles.BtnTextStyle(Colors.white),
+                    )),
+                  ),
+                ),
               ),
             ],
           ),
@@ -125,14 +140,24 @@ class ForgotPassScreen extends StatelessWidget {
           }
         },
         child: ThemeButton(
-            child: auth_services.isloading.value
-                ? CircularProgressIndicator()
-                : Text(
-                    forgotpass_controller.isLinkSent.value
-                        ? 'Link Sent'
-                        : 'Send Reset Link',
-                    style: MyTextStyles.BtnTextStyle(Colors.white),
-                  )),
+          child: forgotpass_controller.isLoading.value
+              ? Transform.scale(
+                  scale: 0.7,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : Text(
+                  forgotpass_controller.isLinkSent.value
+                      ? 'Send Link Again'
+                      : 'Send Reset Link',
+                  style: MyTextStyles.BtnTextStyle(Colors.white),
+                ),
+          color: forgotpass_controller.isLinkSent.value
+              ? Colors.green
+              : mytheme.blue,
+        ),
       ),
     );
   }

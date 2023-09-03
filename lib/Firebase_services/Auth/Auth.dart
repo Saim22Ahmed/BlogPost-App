@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:blog_post_app/controller/Auth_Screen_Controller/Login_Controller.dart';
 import 'package:blog_post_app/controller/Auth_Screen_Controller/Rese&ForgotPass_Controller.dart';
 import 'package:blog_post_app/controller/Auth_Screen_Controller/Signup_Controller.dart';
@@ -89,21 +91,23 @@ class AuthServices extends GetxController {
 
   Future<void> ResetPassword(String email, context) async {
     try {
-      await _firebaseAuth.sendPasswordResetEmail(email: email).then((value) =>
-          Utils.CustomSuccessSnackBar(context, 'Email has been Sent ! ',
-              'Please check your inbox or spam folder after few seconds.'));
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+      // forgot_pass_controller.ShowCustomSnackBar(context);
+      forgot_pass_controller.isLinkSent.value = true;
     } on FirebaseAuthException catch (e) {
+      error_msg = e.message;
       if (e.code == 'user-not-found') {
-        Utils.CustomErrorSnackBar(context, 'Email has been Sent ',
-            'Check your inbox or spam folder after few seconds');
+        Utils.CustomErrorSnackBar(
+            context, 'User Not Found ! ', 'Please Sign up');
       } else if (e.code == 'wrong-password') {
         Utils.CustomErrorSnackBar(
             context, 'Incorrect Password', 'Please try again.');
+      } else {
+        Utils.CustomErrorSnackBar(
+            context, 'Connection Error !', e.message.toString());
       }
+      ;
     }
     forgot_pass_controller.isLoading.value = false;
-    if (forgot_pass_controller.isLoading.value == false) {
-      forgot_pass_controller.isLinkSent.value = true;
-    }
   }
 }

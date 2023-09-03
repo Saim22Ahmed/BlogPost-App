@@ -1,4 +1,4 @@
-import 'package:blog_post_app/controller/animation_controllers/HomeScreenAnimationController.dart';
+import 'package:blog_post_app/controller/animation_controllers/IntroScreens.dart';
 import 'package:blog_post_app/utils/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';

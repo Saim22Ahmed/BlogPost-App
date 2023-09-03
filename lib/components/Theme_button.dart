@@ -10,21 +10,24 @@ class ThemeButton extends StatelessWidget {
     super.key,
     this.width = double.infinity,
     this.height = 52,
+    this.color = mytheme.blue,
     required this.child,
   });
 
   final double width;
   final double height;
   final dynamic child;
+  final dynamic color;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return AnimatedContainer(
+      duration: Duration(microseconds: 500),
       alignment: Alignment.center,
       width: width,
       height: height,
       decoration: BoxDecoration(
-          color: mytheme.blue, borderRadius: BorderRadius.circular(12.r)),
+          color: color, borderRadius: BorderRadius.circular(12.r)),
       child: child,
     );
   }

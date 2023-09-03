@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../utils/myutils.dart';
+
 class Forgot_Pass_Controller extends GetxController {
   // Forgot Password Field Controller
   RxBool ontap = false.obs;
@@ -15,5 +17,13 @@ class Forgot_Pass_Controller extends GetxController {
     emailfocus.value.unfocus();
   }
 
-  //Reset Password Fields Controllers
+  // Animation of Login Button
+  RxBool isAnimate = true.obs;
+
+  ShowCustomSnackBar(context) {
+    if (isAnimate.value == false) {
+      return Utils.CustomSuccessSnackBar(context, 'Link has been Sent ! ',
+          'Please check your inbox or spam folder after few seconds.');
+    }
+  }
 }
